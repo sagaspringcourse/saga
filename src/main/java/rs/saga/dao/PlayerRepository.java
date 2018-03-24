@@ -22,12 +22,12 @@ import java.util.Set;
  * @since 2018-03-15
  */
 @Repository
-public class HibernatePlayerRepository implements IPlayerRepo {
+public class PlayerRepository implements IPlayerRepo {
 
     private SessionFactory sessionFactory;
 
     @Autowired
-    public HibernatePlayerRepository(SessionFactory sessionFactory) {
+    public PlayerRepository(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
@@ -52,11 +52,6 @@ public class HibernatePlayerRepository implements IPlayerRepo {
         query.setParameter("firstName", firstName);
         List<Player> players = query.getResultList();
         return new HashSet<>(players);
-    }
-
-    @Override
-    public Set<Player> findByFirstNameNamed(String firstName) {
-        return null;
     }
 
 }

@@ -58,7 +58,7 @@ public class HibernatePlayerRepositoryIT {
 
         @Bean
         public IPlayerRepo playerRepo(SessionFactory sessionFactory) {
-            return new HibernatePlayerRepository(sessionFactory);
+            return new PlayerRepository(sessionFactory);
         }
     }
 }
