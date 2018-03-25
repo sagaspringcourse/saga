@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
@@ -24,14 +25,14 @@ import static org.junit.Assert.assertNotNull;
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
 @RunWith(SpringRunner.class)
 @Transactional
-public class HibernateTeamRepositoryIT {
+public class TeamRepositoryIT {
 
     @Autowired
     private ITeamRepo teamRepo;
 
     @Test
     public void save() throws Exception {
-        teamRepo.save(new Team("Buducnost"));
+        Team team = teamRepo.save(new Team("Buducnost"));
         Team buducnost = teamRepo.findByName("Buducnost");
 
         // asserting saving by checking that ID is generated and assigned
@@ -47,15 +48,9 @@ public class HibernateTeamRepositoryIT {
 
 
     @Configuration
+    @EnableJpaRepositories
     @Import(DBPopulationConfig.class)
-    @EnableTransactionManagement
     static class TestConfig {
-
-        @Bean
-        public ITeamRepo teamRepo(SessionFactory sessionFactory) {
-            return new TeamRepository(sessionFactory);
-        }
-
     }
 
 }

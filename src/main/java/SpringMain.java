@@ -13,6 +13,7 @@ public class SpringMain {
     public static void main(String[] args) {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(GameConfig.class);
 
+
         IGameService game = applicationContext.getBean("gameService", IGameService.class);
         Team zvezda = new Team("Crvena Zvezda");
         Team partizan = new Team("Partizan");
