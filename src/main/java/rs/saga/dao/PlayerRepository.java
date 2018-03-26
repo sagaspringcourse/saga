@@ -8,6 +8,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import rs.saga.domain.Player;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,22 +26,18 @@ import java.util.Set;
 @Repository
 public class PlayerRepository implements IPlayerRepo {
 
-    private SessionFactory sessionFactory;
+    private EntityManager entityManager;
 
-    @Autowired
-    public PlayerRepository(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
-
-    private Session getSession() {
-        return sessionFactory.getCurrentSession();
+    @PersistenceContext
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 
     @Override
     public int save(Player player) {
         int sqlCode = 0;
         try {
-            getSession().save(player);
+            entityManager.persist(player);
         } catch (Exception e) {
             sqlCode = 1;
         }
@@ -48,7 +46,7 @@ public class PlayerRepository implements IPlayerRepo {
 
     @Override
     public Set<Player> findByFirstName(String firstName) {
-        Query query = getSession().createQuery("FROM Player p WHERE p.firstName= :firstName");
+        javax.persistence.Query query = entityManager.createQuery("FROM Player p WHERE p.firstName= :firstName");
         query.setParameter("firstName", firstName);
         List<Player> players = query.getResultList();
         return new HashSet<>(players);

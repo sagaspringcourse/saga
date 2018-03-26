@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 import rs.saga.config.DBPopulationConfig;
@@ -21,7 +20,7 @@ import static org.junit.Assert.assertNotNull;
  * @author <a href="mailto:slavisa.avramovic@escriba.de">avramovics</a>
  * @since 2018-03-15
  */
-@ContextConfiguration(loader = AnnotationConfigContextLoader.class)
+@ContextConfiguration
 @RunWith(SpringRunner.class)
 @Transactional
 public class HibernateTeamRepositoryIT {

@@ -1,6 +1,5 @@
 package rs.saga.dao;
 
-import org.hibernate.SessionFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,7 +27,7 @@ import static org.junit.Assert.assertNotNull;
 @ContextConfiguration
 @RunWith(SpringRunner.class)
 @Transactional
-public class HibernatePlayerRepositoryIT {
+public class JpaPlayerRepositoryIT {
 
     @Autowired
     private IPlayerRepo playerRepo;
@@ -57,8 +56,8 @@ public class HibernatePlayerRepositoryIT {
     static class TestConfig {
 
         @Bean
-        public IPlayerRepo playerRepo(SessionFactory sessionFactory) {
-            return new PlayerRepository(sessionFactory);
+        public IPlayerRepo playerRepo() {
+            return new PlayerRepository();
         }
     }
 }
