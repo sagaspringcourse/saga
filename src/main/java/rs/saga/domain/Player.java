@@ -39,10 +39,10 @@ public class Player {
     @JoinColumn(name = "TEAM_ID", referencedColumnName = "ID")
     private Team team;
 
-    @OneToOne(mappedBy = "player" )
+    @OneToOne(mappedBy = "player")
     private Credentials credentials;
 
-    public Player(Long id, String firstName, String username, String lastName, String password, String address, String email) {
+    public Player(Long id, String firstName, String lastName, String address, String email) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
