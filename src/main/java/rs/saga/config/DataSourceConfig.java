@@ -52,11 +52,15 @@ public class DataSourceConfig {
         return mysqlDS;
     }
 
+    @Bean
+    public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
+        return new JpaTransactionManager(entityManagerFactory);
+    }
 
     @Bean
     public Properties hibernateProperties() {
         Properties hibernateProp = new Properties();
-        hibernateProp.put("hibernate.dialect", "org.hibernate.dialect.MySQL5InnoDBDialect");
+        hibernateProp.put("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
         hibernateProp.put("hibernate.hbm2ddl.auto", "create");
         hibernateProp.put("hibernate.format_sql", true);
         hibernateProp.put("hibernate.use_sql_comments", true);
@@ -73,12 +77,6 @@ public class DataSourceConfig {
         factoryBean.setJpaProperties(hibernateProperties());
         factoryBean.afterPropertiesSet();
         return factoryBean.getNativeEntityManagerFactory();
-    }
-
-
-    @Bean
-    public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
-        return new JpaTransactionManager(entityManagerFactory);
     }
 
 
