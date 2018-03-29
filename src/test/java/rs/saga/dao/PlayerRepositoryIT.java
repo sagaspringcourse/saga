@@ -9,9 +9,10 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 import rs.saga.builder.PlayerBuilder;
-import rs.saga.config.DBPopulationConfig;
+import rs.saga.config.DataSourceConfig;
 import rs.saga.domain.Player;
 
 import java.util.Set;
@@ -50,8 +51,9 @@ public class PlayerRepositoryIT {
     }
 
     @Configuration
-    @Import(DBPopulationConfig.class)
+    @Import(DataSourceConfig.class)
     @EnableJpaRepositories
+    @EnableTransactionManagement
     static class TestConfig {
 
     }
