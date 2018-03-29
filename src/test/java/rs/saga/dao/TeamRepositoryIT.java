@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +14,7 @@ import rs.saga.config.DataSourceConfig;
 import rs.saga.domain.Player;
 import rs.saga.domain.Team;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 /**
@@ -29,13 +29,10 @@ public class TeamRepositoryIT {
     @Autowired
     private ITeamRepo teamRepo;
 
-    @Commit
     @Test
     public void save() throws Exception {
-
-        Player nino = new PlayerBuilder().setFirstName("Nikola").setLastName("Ninovic").setEmail("nikola.n@saga.rs").createPlayer();
-        Player slave = new PlayerBuilder().setFirstName("Slavisa").setLastName("Avramoviuc").setEmail("nikola.n@saga.rs").createPlayer();
-
+        Player nino = PlayerBuilder.getInstance().nino().createPlayer();
+        Player slave = PlayerBuilder.getInstance().slave().createPlayer();
 
         Team buducnost = new Team("Buducnost");
         buducnost.getPlayers().add(nino);
@@ -47,12 +44,14 @@ public class TeamRepositoryIT {
 
         // asserting saving by checking that ID is generated and assigned
         assertNotNull(buducnost.getId());
-    }
 
+        assertEquals(2, teamRepo.findOne(buducnost.getId()).getPlayers().size());
+    }
 
 
     @Test
     public void findByName() throws Exception {
+        teamRepo.save(new Team("Partizan"));
         Team partizan = teamRepo.findByName("Partizan");
 
         assertNotNull(partizan.getId());

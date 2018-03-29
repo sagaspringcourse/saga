@@ -16,6 +16,12 @@ public class PlayerBuilder {
         return new Player(id, firstName, username, lastName, password, address, email);
     }
 
+    public static PlayerBuilder getInstance() {
+        return new PlayerBuilder();
+    }
+
+
+
     public PlayerBuilder setAddress(String address) {
         this.address = address;
         return this;
@@ -49,5 +55,13 @@ public class PlayerBuilder {
     public PlayerBuilder setUsername(String username) {
         this.username = username;
         return this;
+    }
+
+    public PlayerBuilder nino() {
+        return setFirstName("Nikola").setLastName("Ninovic").setEmail("nikola.n@saga.rs");
+    }
+
+    public PlayerBuilder slave() {
+        return setFirstName("Slavisa").setLastName("Avramoviuc").setEmail("slavisa.a@saga.rs");
     }
 }

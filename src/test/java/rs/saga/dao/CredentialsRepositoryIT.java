@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,15 +40,13 @@ public class CredentialsRepositoryIT {
         assertNotNull(playerRepo);
     }
 
-    @Commit
     @Test
     public void save() throws Exception {
         Credentials credentials = new Credentials();
-        Player nino = new PlayerBuilder().setFirstName("Nikola").setLastName("Ninovic").setEmail("nikola.n@saga.rs").createPlayer();
-
-
         credentials.setPassword("pass");
         credentials.setUsername("ninovic.n");
+
+        Player nino = PlayerBuilder.getInstance().nino().createPlayer();
         credentials.setPlayer(nino);
         nino.setCredentials(credentials);
 
@@ -64,8 +61,9 @@ public class CredentialsRepositoryIT {
 
     @Test
     public void findByFirstName() throws Exception {
+        playerRepo.save(PlayerBuilder.getInstance().nino().createPlayer());
         Set<Player> players = playerRepo.findByFirstName("Nikola");
-        assertEquals(2, players.size());
+        assertEquals(1, players.size());
     }
 
     @Configuration

@@ -39,15 +39,16 @@ public class PlayerRepositoryIT {
 
     @Test
     public void save() throws Exception {
-        Player nino = new PlayerBuilder().setFirstName("Nikola").setLastName("Ninovic").setEmail("nikola.n@saga.rs").createPlayer();
+        Player nino = PlayerBuilder.getInstance().nino().createPlayer();
         Player player = playerRepo.save(nino);
         assertNotNull(player.getId());
     }
 
     @Test
     public void findByFirstName() throws Exception {
+        playerRepo.save(PlayerBuilder.getInstance().nino().createPlayer());
         Set<Player> players = playerRepo.findByFirstName("Nikola");
-        assertEquals(2, players.size());
+        assertEquals(1, players.size());
     }
 
     @Configuration
