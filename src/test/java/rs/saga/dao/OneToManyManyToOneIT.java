@@ -24,19 +24,20 @@ import static org.junit.Assert.assertNotNull;
 @ContextConfiguration
 @RunWith(SpringRunner.class)
 @Transactional
-public class TeamRepositoryIT {
+public class OneToManyManyToOneIT {
 
     @Autowired
     private ITeamRepo teamRepo;
 
     @Test
-    public void save() throws Exception {
+    public void testOneToManyBidirectional() throws Exception {
         Player nino = PlayerBuilder.getInstance().nino().createPlayer();
         Player slave = PlayerBuilder.getInstance().slave().createPlayer();
 
         Team buducnost = new Team("Buducnost");
         buducnost.getPlayers().add(nino);
         buducnost.getPlayers().add(slave);
+
         slave.setTeam(buducnost);
         nino.setTeam(buducnost);
 
@@ -47,16 +48,6 @@ public class TeamRepositoryIT {
 
         assertEquals(2, teamRepo.findOne(buducnost.getId()).getPlayers().size());
     }
-
-
-    @Test
-    public void findByName() throws Exception {
-        teamRepo.save(new Team("Partizan"));
-        Team partizan = teamRepo.findByName("Partizan");
-
-        assertNotNull(partizan.getId());
-    }
-
 
     @Configuration
     @EnableJpaRepositories

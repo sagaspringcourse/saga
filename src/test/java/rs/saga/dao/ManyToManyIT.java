@@ -29,7 +29,7 @@ import static org.junit.Assert.assertThat;
 @ContextConfiguration
 @RunWith(SpringRunner.class)
 @Transactional
-public class SkillRepositoryIT {
+public class ManyToManyIT {
 
     @Autowired
     private IPlayerRepo playerRepo;

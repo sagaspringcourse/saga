@@ -15,10 +15,9 @@ import rs.saga.config.DataSourceConfig;
 import rs.saga.domain.Credentials;
 import rs.saga.domain.Player;
 
-import java.util.Set;
-
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 
 /**
  * @author <a href="mailto:slavisa.avramovic@escriba.de">avramovics</a>
@@ -27,7 +26,7 @@ import static org.junit.Assert.assertNotNull;
 @ContextConfiguration
 @RunWith(SpringRunner.class)
 @Transactional
-public class CredentialsRepositoryIT {
+public class OneToOneIT {
 
     @Autowired
     private IPlayerRepo playerRepo;
@@ -41,7 +40,7 @@ public class CredentialsRepositoryIT {
     }
 
     @Test
-    public void save() throws Exception {
+    public void testOneToOneBidirectional() throws Exception {
         Credentials credentials = new Credentials();
         credentials.setPassword("pass");
         credentials.setUsername("ninovic.n");
@@ -54,16 +53,8 @@ public class CredentialsRepositoryIT {
 
         assertNotNull(nino.getId());
 
-        Player d = playerRepo.findOne(nino.getId());
-        System.out.println(d.getCredentials().getUsername());
-
-    }
-
-    @Test
-    public void findByFirstName() throws Exception {
-        playerRepo.save(PlayerBuilder.getInstance().nino().createPlayer());
-        Set<Player> players = playerRepo.findByFirstName("Nikola");
-        assertEquals(1, players.size());
+        nino = playerRepo.findOne(nino.getId());
+        assertThat(nino.getCredentials().getUsername(), is("ninovic.n"));
     }
 
     @Configuration

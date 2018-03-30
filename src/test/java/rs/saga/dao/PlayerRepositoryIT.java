@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 import rs.saga.builder.PlayerBuilder;
 import rs.saga.config.DataSourceConfig;
@@ -54,7 +53,6 @@ public class PlayerRepositoryIT {
     @Configuration
     @Import(DataSourceConfig.class)
     @EnableJpaRepositories
-    @EnableTransactionManagement
     static class TestConfig {
 
     }
