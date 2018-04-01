@@ -4,9 +4,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import rs.saga.dao.IGameRepo;
 import rs.saga.dao.ITeamRepo;
 import rs.saga.dao.TeamNotFoundException;
+import rs.saga.domain.SoccerGame;
 import rs.saga.domain.Team;
 
 import static org.junit.Assert.assertEquals;
@@ -28,11 +31,14 @@ public class GameServiceMockTest {
     @Mock
     private ITeamRepo teamRepo;
 
+    @Mock
+    private IGameRepo gameRepo;
+
     @Before
     public void setup() {
         home = new Team("Crvena Zvezda");
         away = new Team("Partizan");
-        gameUnderTest = new GameService();
+        gameUnderTest = new GameService(gameRepo);
         MockitoAnnotations.initMocks(this);
     }
 
@@ -41,6 +47,7 @@ public class GameServiceMockTest {
         // setup mock
         doNothing().when(teamRepo).delete(home); // mocking methods that return void
         when(teamRepo.save(home)).thenReturn(home);
+        when(gameRepo.save(Mockito.any(SoccerGame.class))).thenReturn(new SoccerGame());
         // initialize with mock
         gameUnderTest.setRepo(teamRepo);
 

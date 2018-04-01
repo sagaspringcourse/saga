@@ -9,10 +9,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 import rs.saga.config.DataSourceConfig;
+import rs.saga.dao.IGameRepo;
 import rs.saga.dao.ITeamRepo;
 import rs.saga.dao.TeamNotFoundException;
 import rs.saga.domain.Team;
@@ -39,6 +41,15 @@ public class GameServiceIT {
         assertEquals("Partizan", updated.getName());
     }
 
+    @Commit
+    @Test
+    public void testGamePlay() {
+        Team partizan = new Team("Partizan");
+        Team crvenaZvezda = new Team("CrvenaZvezda");
+        gameUnderTest.playGame(partizan, crvenaZvezda);
+
+    }
+
     @Ignore
     @Test(expected = TeamNotFoundException.class)
     public void testUpdateFailure() {
@@ -53,8 +64,8 @@ public class GameServiceIT {
     static class TestConfig {
 
         @Bean
-        public IGameService gameRepo(ITeamRepo teamRepo) {
-            GameService gameService = new GameService();
+        public IGameService gameRepo(ITeamRepo teamRepo, IGameRepo gameRepo) {
+            GameService gameService = new GameService(gameRepo);
             gameService.setRepo(teamRepo);
             return gameService;
         }

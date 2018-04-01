@@ -3,7 +3,9 @@ package rs.saga.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import rs.saga.dao.IGameRepo;
 import rs.saga.dao.ITeamRepo;
+import rs.saga.domain.SoccerGame;
 import rs.saga.domain.Team;
 
 import javax.annotation.PostConstruct;
@@ -19,6 +21,13 @@ public class GameService implements IGameService {
 
     private ITeamRepo repo;
 
+    private IGameRepo gameRepo;
+
+    @Autowired
+    public GameService(IGameRepo gameRepo) {
+        this.gameRepo = gameRepo;
+    }
+
     @PostConstruct
     private void preGame() {
         System.out.println("Choosing side:");
@@ -26,11 +35,18 @@ public class GameService implements IGameService {
 
     @Override
     public void playGame(Team home, Team away) {
+        SoccerGame game = new SoccerGame();
+        game.setAway(away);
+        game.setHome(home);
         if (Math.random() < 0.5) {
             System.out.println(away.getName() + " won");
+            game.setWinner(away);
         } else {
+            game.setWinner(home);
             System.out.println(home.getName() + " won");
         }
+
+        gameRepo.save(game);
     }
 
     @PreDestroy
