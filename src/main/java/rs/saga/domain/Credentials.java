@@ -25,6 +25,7 @@ public class Credentials {
 
     @Column(name = "USERNAME")
     private String username;
+
     @Column(name = "PASSWORD")
     private String password;
 

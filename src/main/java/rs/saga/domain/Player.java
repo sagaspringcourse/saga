@@ -7,9 +7,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author <a href="mailto:slavisa.avramovic@escriba.de">avramovics</a>
@@ -21,7 +25,7 @@ public class Player {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="ID")
+    @Column(name = "ID")
     private Long id;
 
     @Column(name = "FIRST_NAME")
@@ -41,6 +45,13 @@ public class Player {
 
     @OneToOne(mappedBy = "player")
     private Credentials credentials;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "PLAYER_SKILL",
+        joinColumns = @JoinColumn(name = "PLAYER_ID", referencedColumnName = "ID"),
+        inverseJoinColumns = @JoinColumn(name = "SKILL_ID", referencedColumnName = "ID")
+    )
+    private List<Skill> skills = new ArrayList<>();
 
     public Player(Long id, String firstName, String lastName, String address, String email) {
         this.id = id;
@@ -69,7 +80,6 @@ public class Player {
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-
 
     public String getLastName() {
         return lastName;
@@ -109,5 +119,13 @@ public class Player {
 
     public void setTeam(Team team) {
         this.team = team;
+    }
+
+    public List<Skill> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(List<Skill> skills) {
+        this.skills = skills;
     }
 }
