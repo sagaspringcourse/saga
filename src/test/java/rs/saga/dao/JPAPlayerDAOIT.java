@@ -25,13 +25,13 @@ import static org.hamcrest.core.Is.is;
  */
 @ContextConfiguration
 @RunWith(SpringRunner.class)
-public class JPAPlayerStateTransitionIT {
+public class JPAPlayerDAOIT {
 
     @Autowired
     private EntityManagerFactory emf;
 
     @Autowired
-    private IPlayerStateTransitionRepo playerStateTransitionRepo;
+    private IPlayerRepo playerStateTransitionRepo;
 
     @Test(expected = IllegalArgumentException.class)
     public void playerEntityStateTransitionTest() {
@@ -137,7 +137,7 @@ public class JPAPlayerStateTransitionIT {
     static class TestConfig {
 
         @Bean
-        public IPlayerStateTransitionRepo playerStateTransitionRepo() {
+        public IPlayerRepo playerStateTransitionRepo() {
             return new JPAPlayerRepository();
         }
 

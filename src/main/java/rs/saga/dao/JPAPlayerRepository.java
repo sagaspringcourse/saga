@@ -7,6 +7,8 @@ import rs.saga.domain.Player;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import java.util.List;
 
 /**
  * @author <a href="mailto:slavisa.avramovic@escriba.de">avramovics</a>
@@ -15,7 +17,7 @@ import javax.persistence.PersistenceContext;
 @Repository
 @Transactional
 @Profile("jpa")
-public class JPAPlayerRepository implements IPlayerStateTransitionRepo {
+public class JPAPlayerRepository implements IPlayerRepo {
 
     private EntityManager entityManager;
 
@@ -45,6 +47,12 @@ public class JPAPlayerRepository implements IPlayerStateTransitionRepo {
     @Override
     public Boolean isManaged(Player player) {
         return entityManager.contains(player);
+    }
+
+    @Override
+    public List<Player> findAll() {
+        TypedQuery<Player> query = entityManager.createQuery("from Player p order by p.name", Player.class);
+        return query.getResultList();
     }
 
     @Override

@@ -2,11 +2,14 @@ package rs.saga.dao;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import rs.saga.domain.Player;
+
+import java.util.List;
 
 /**
  * @author <a href="mailto:slavisa.avramovic@escriba.de">avramovics</a>
@@ -15,7 +18,7 @@ import rs.saga.domain.Player;
 @Repository
 @Transactional
 @Profile("hibernate")
-public class HibernatePlayerRepository implements IPlayerStateTransitionRepo {
+public class HibernatePlayerRepository implements IPlayerRepo {
 
     private SessionFactory sessionFactory;
 
@@ -55,5 +58,12 @@ public class HibernatePlayerRepository implements IPlayerStateTransitionRepo {
     @Override
     public Player get(Long playerId) {
         return getSession().get(Player.class, playerId);
+    }
+
+    @Override
+    public List<Player> findAll() {
+        Query query = getSession().createQuery("select p from Player p");
+        List<Player> players = query.getResultList();
+        return players;
     }
 }

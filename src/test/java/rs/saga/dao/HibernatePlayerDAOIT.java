@@ -24,13 +24,13 @@ import static org.hamcrest.core.Is.is;
  */
 @ContextConfiguration
 @RunWith(SpringRunner.class)
-public class HibernatePlayerStateTransitionIT {
+public class HibernatePlayerDAOIT {
 
     @Autowired
     private SessionFactory sessionFactory;
 
     @Autowired
-    private IPlayerStateTransitionRepo playerStateTransitionRepo;
+    private IPlayerRepo playerStateTransitionRepo;
 
     @Test
     public void playerEntityStateTransitionTest() {
@@ -142,7 +142,7 @@ public class HibernatePlayerStateTransitionIT {
     static class TestConfig {
 
         @Bean
-        public IPlayerStateTransitionRepo playerStateTransitionRepo(SessionFactory sessionFactory) {
+        public IPlayerRepo playerStateTransitionRepo(SessionFactory sessionFactory) {
             return new HibernatePlayerRepository(sessionFactory);
         }
 
