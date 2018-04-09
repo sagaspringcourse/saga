@@ -51,7 +51,7 @@ public class JPAPlayerRepository implements IPlayerRepo {
 
     @Override
     public List<Player> findAll() {
-        TypedQuery<Player> query = entityManager.createQuery("from Player p order by p.name", Player.class);
+        TypedQuery<Player> query = entityManager.createQuery("from Player p order by p.firstName", Player.class);
         return query.getResultList();
     }
 
