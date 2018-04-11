@@ -10,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import rs.saga.config.JPAConfig;
 import rs.saga.domain.Player;
+import rs.saga.domain.Team;
 
 import java.util.List;
 
@@ -33,6 +34,40 @@ public class JPAPlayerDAOIT {
         assertEquals(7, all.size());
     }
 
+    @Test
+    public void testFindPlayersPositional() {
+        List<Player> all = playerRepo.findPlayersWithPositionalParameter(28, 30);
+
+        assertEquals(2, all.size());
+    }
+
+    @Test
+    public void testFindPlayersNamed() {
+        List<Player> all = playerRepo.findPlayersWithNamedParameter(28, 30);
+
+        assertEquals(2, all.size());
+    }
+
+    @Test
+    public void testFindTeams() {
+        List<Team> all = playerRepo.findTeams();
+
+        assertEquals(2, all.size());
+    }
+
+    @Test
+    public void testNamedQuery() {
+        List<Team> all = playerRepo.findTeamsNamed();
+
+        assertEquals(2, all.size());
+    }
+
+    @Test
+    public void testFindFunctions() {
+        List<Team> all = playerRepo.findTeamsFunctionTest();
+
+        assertEquals(1, all.size());
+    }
 
     @Configuration
     @Import(JPAConfig.class)

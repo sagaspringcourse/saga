@@ -36,8 +36,12 @@ public class Player {
 
     @Column(name = "ADDRESS")
     private String address;
+
     @Column(name = "EMAIL")
     private String email;
+
+    @Column(name = "AGE")
+    private Integer age;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "TEAM_ID", referencedColumnName = "ID")
@@ -127,5 +131,13 @@ public class Player {
 
     public void setSkills(List<Skill> skills) {
         this.skills = skills;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
     }
 }

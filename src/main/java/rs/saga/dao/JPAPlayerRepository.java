@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import rs.saga.domain.Player;
+import rs.saga.domain.Team;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -40,20 +41,53 @@ public class JPAPlayerRepository implements IPlayerRepo {
         } catch (Exception e) {
             sqlCode = 1;
         }
-        System.out.println("Is Entity managed: " + isManaged(player));
         return sqlCode;
     }
 
-    @Override
-    public Boolean isManaged(Player player) {
-        return entityManager.contains(player);
-    }
 
     @Override
     public List<Player> findAll() {
         TypedQuery<Player> query = entityManager.createQuery("from Player p order by p.firstName", Player.class);
         return query.getResultList();
     }
+
+    @Override
+    public List<Player> findPlayersWithPositionalParameter(Integer ageL, Integer ageU) {
+        TypedQuery<Player> query = entityManager.createQuery("from Player p where (p.age between ?1 and ?2) and firstName like '%ik%' order by p.firstName", Player.class);
+        query.setParameter(1, ageL);
+        query.setParameter(2, ageU);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Player> findPlayersWithNamedParameter(Integer ageL, Integer ageU) {
+        TypedQuery<Player> query = entityManager.createQuery("from Player p where (p.age between :ageMin and :ageMax) and firstName like '%ik%' order by p.firstName", Player.class);
+        query.setParameter("ageMin", ageL);
+        query.setParameter("ageMax", ageU);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Team> findTeamsFunctionTest() {
+        TypedQuery<Team> query = entityManager.createQuery("select distinct(p.team) from Player p join p.team where lower(p.team.name) = 'crvena zvezda'", Team.class);
+        List<Team> teams = query.getResultList();
+        return teams;
+    }
+
+    @Override
+    public List<Team> findTeamsNamed() {
+        TypedQuery<Team> query = entityManager.createNamedQuery("Team.withMoreThanOnePlayer", Team.class);
+        List<Team> teams = query.getResultList();
+        return teams;
+    }
+
+    @Override
+    public List<Team> findTeams() {
+        TypedQuery<Team> query = entityManager.createQuery("select distinct p.team from Player p join p.team group by p.team.name having count(*) > 2", Team.class);
+        List<Team> teams = query.getResultList();
+        return teams;
+    }
+
 
     @Override
     public Player get(Long playerId) {

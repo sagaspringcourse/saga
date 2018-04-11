@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import rs.saga.domain.Player;
+import rs.saga.domain.Team;
 
 import java.util.List;
 
@@ -46,13 +47,7 @@ public class HibernatePlayerRepository implements IPlayerRepo {
         } catch (Exception e) {
             sqlCode = 1;
         }
-        System.out.println("Is Entity managed: " + isManaged(player));
         return sqlCode;
-    }
-
-    @Override
-    public Boolean isManaged(Player player) {
-        return getSession().contains(player);
     }
 
     @Override
@@ -66,4 +61,47 @@ public class HibernatePlayerRepository implements IPlayerRepo {
         List<Player> players = query.getResultList();
         return players;
     }
+
+    @Override
+    public List<Team> findTeams() {
+        Query query = getSession().createQuery("select distinct p.team from Player p join p.team group by p.team.name having count(*) > 2");
+        List<Team> teams = query.getResultList();
+        return teams;
+    }
+
+    @Override
+    public List<Team> findTeamsFunctionTest() {
+        Query query = getSession().createQuery("select distinct(p.team) from Player p join p.team where lower(p.team.name) = 'Crvena Zvezda'");
+        List<Team> teams = query.getResultList();
+        return teams;
+    }
+
+    @Override
+    public List<Team> findTeamsNamed() {
+        Query query = getSession().getNamedQuery("Team.withMoreThanOnePlayer");
+        List<Team> teams = query.getResultList();
+        return teams;
+    }
+
+    @Override
+    public List<Player> findPlayersWithPositionalParameter(Integer ageL, Integer ageU) {
+        Query query = getSession().createQuery("from Player p where (p.age between ? and ?) and firstName like '%ik%' order by p.firstName");
+        query.setParameter(0, ageL);
+        query.setParameter(1, ageU);
+        List<Player> players = query.getResultList();
+        return players;
+    }
+
+
+
+    @Override
+    public List<Player> findPlayersWithNamedParameter(Integer ageL, Integer ageU) {
+        Query query = getSession().createQuery("from Player p where (p.age between :ageMin and :ageMax) and firstName like '%ik%' order by p.firstName");
+        query.setParameter("ageMin", ageL);
+        query.setParameter("ageMax", ageU);
+        List<Player> players = query.getResultList();
+        return players;
+    }
+
+
 }
