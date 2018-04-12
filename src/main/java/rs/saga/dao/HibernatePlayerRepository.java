@@ -104,4 +104,11 @@ public class HibernatePlayerRepository implements IPlayerRepo {
     }
 
 
+    @Override
+    public Long countPlayers(long playerId) {
+        Query query = getSession().createSQLQuery("CALL player_count(:playerId)")
+                .addEntity(Player.class)
+                .setParameter("playerId", playerId);
+      return (Long) query.getSingleResult();
+    }
 }

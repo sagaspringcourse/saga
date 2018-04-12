@@ -12,6 +12,8 @@ import java.util.List;
  */
 public interface IPlayerRepo {
 
+    Long countPlayers(long playerId);
+
     List<Player> findAll();
 
     List<Team> findTeams();

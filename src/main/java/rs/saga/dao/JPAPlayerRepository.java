@@ -7,7 +7,9 @@ import rs.saga.domain.Player;
 import rs.saga.domain.Team;
 
 import javax.persistence.EntityManager;
+import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
+import javax.persistence.StoredProcedureQuery;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -93,4 +95,23 @@ public class JPAPlayerRepository implements IPlayerRepo {
     public Player get(Long playerId) {
         return entityManager.find(Player.class, playerId);
     }
+
+    @Override
+    public Long countPlayers(long playerId) {
+        StoredProcedureQuery query = entityManager
+                .createStoredProcedureQuery("count_players")
+                .registerStoredProcedureParameter(
+                        "playerId", Long.class, ParameterMode.IN)
+                .registerStoredProcedureParameter(
+                        "playerCount", Long.class, ParameterMode.OUT)
+                .setParameter("playerId", playerId);
+
+        query.execute();
+
+        Long playerCount = (Long) query
+                .getOutputParameterValue("playerCount");
+
+        return playerCount;
+    }
+
 }
