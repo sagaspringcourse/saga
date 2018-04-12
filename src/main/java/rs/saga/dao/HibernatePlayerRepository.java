@@ -7,6 +7,9 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import rs.saga.domain.Player;
+import rs.saga.domain.Team;
+
+import java.util.List;
 
 /**
  * @author <a href="mailto:slavisa.avramovic@escriba.de">avramovics</a>
@@ -15,7 +18,7 @@ import rs.saga.domain.Player;
 @Repository
 @Transactional
 @Profile("hibernate")
-public class HibernatePlayerRepository implements IPlayerStateTransitionRepo {
+public class HibernatePlayerRepository implements IPlayerRepo {
 
     private SessionFactory sessionFactory;
 
@@ -24,36 +27,48 @@ public class HibernatePlayerRepository implements IPlayerStateTransitionRepo {
         this.sessionFactory = sessionFactory;
     }
 
+    @Override
+    public List<Player> findAll() {
+        return null;
+    }
+
+    @Override
+    public List<Player> findPlayersWithPositionalParameter(Integer ageMin, Integer ageMax) {
+        return null;
+    }
+
+    @Override
+    public List<Player> findPlayersUsingNamedParameters(Integer ageMin, Integer ageMax) {
+        return null;
+    }
+
+    @Override
+    public List<Team> findTeamsUsingJoin() {
+        return null;
+    }
+
+    @Override
+    public List<Team> findTeamsUsingFunction() {
+        return null;
+    }
+
+    @Override
+    public List<Team> findTeamsUsingNamedQuery() {
+        return null;
+    }
+
+    @Override
+    public List<Player> findAllUsingNativeQuery() {
+        return null;
+    }
+
+    @Override
+    public Long countPlayersUsingStoredProcedure(long playerId) {
+        return null;
+    }
+
 
     private Session getSession() {
         return sessionFactory.getCurrentSession();
-    }
-
-    @Override
-    public void remove(Player nino) {
-        getSession().remove(nino);
-    }
-
-
-    @Override
-    public int save(Player player) {
-        int sqlCode = 0;
-        try {
-            getSession().save(player);
-        } catch (Exception e) {
-            sqlCode = 1;
-        }
-        System.out.println("Is Entity managed: " + isManaged(player));
-        return sqlCode;
-    }
-
-    @Override
-    public Boolean isManaged(Player player) {
-        return getSession().contains(player);
-    }
-
-    @Override
-    public Player get(Long playerId) {
-        return getSession().get(Player.class, playerId);
     }
 }

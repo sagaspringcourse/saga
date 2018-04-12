@@ -4,9 +4,11 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import rs.saga.domain.Player;
+import rs.saga.domain.Team;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 /**
  * @author <a href="mailto:slavisa.avramovic@escriba.de">avramovics</a>
@@ -15,40 +17,56 @@ import javax.persistence.PersistenceContext;
 @Repository
 @Transactional
 @Profile("jpa")
-public class JPAPlayerRepository implements IPlayerStateTransitionRepo {
+public class JPAPlayerRepository implements IPlayerRepo {
 
     private EntityManager entityManager;
+
+    @Override
+    public List<Player> findAll() {
+        return null;
+    }
+
+    @Override
+    public List<Player> findPlayersWithPositionalParameter(Integer ageMin, Integer ageMax) {
+        return null;
+    }
+
+    @Override
+    public List<Player> findPlayersUsingNamedParameters(Integer ageMin, Integer ageMax) {
+        return null;
+    }
+
+    @Override
+    public List<Team> findTeamsUsingJoin() {
+        return null;
+    }
+
+    @Override
+    public List<Team> findTeamsUsingFunction() {
+        return null;
+    }
+
+    @Override
+    public List<Team> findTeamsUsingNamedQuery() {
+        return null;
+    }
+
+    @Override
+    public List<Player> findAllUsingNativeQuery() {
+        return null;
+    }
+
+    @Override
+    public Long countPlayersUsingStoredProcedure(long playerId) {
+        return null;
+    }
 
     @PersistenceContext
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
-    @Override
-    public void remove(Player nino) {
-        entityManager.remove(nino);
-    }
 
 
-    @Override
-    public int save(Player player) {
-        int sqlCode = 0;
-        try {
-            entityManager.persist(player);
-        } catch (Exception e) {
-            sqlCode = 1;
-        }
-        System.out.println("Is Entity managed: " + isManaged(player));
-        return sqlCode;
-    }
 
-    @Override
-    public Boolean isManaged(Player player) {
-        return entityManager.contains(player);
-    }
-
-    @Override
-    public Player get(Long playerId) {
-        return entityManager.find(Player.class, playerId);
-    }
 }

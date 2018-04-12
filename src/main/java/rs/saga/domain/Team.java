@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
@@ -17,6 +19,9 @@ import java.util.List;
  */
 @Entity
 @Table(name = "s_team")
+@NamedQueries(
+        @NamedQuery(name = "Team.withMoreThanOnePlayer", query = "select distinct p.team from Player p join p.team group by p.team.name having count(*) > 2")
+)
 public class Team {
 
     @Id
