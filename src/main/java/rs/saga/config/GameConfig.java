@@ -5,6 +5,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import rs.saga.dao.IGameRepo;
 import rs.saga.dao.ITeamRepo;
 import rs.saga.service.GameService;
 import rs.saga.service.IGameService;
@@ -20,8 +21,8 @@ import rs.saga.service.IGameService;
 public class GameConfig {
 
     @Bean
-    public IGameService gameService(ITeamRepo teamRepo) {
-        GameService gameService = new GameService();
+    public IGameService gameService(ITeamRepo teamRepo, IGameRepo gameRepo) {
+        GameService gameService = new GameService(gameRepo);
         gameService.setRepo(teamRepo);
         return gameService;
     }
