@@ -5,5 +5,12 @@ CREATE PROCEDURE count_players (
 BEGIN
   SELECT COUNT(*) INTO playerCount
   FROM s_player
-  WHERE "s_player".id = playerId;
+  WHERE s_player.id = playerId;
+END;
+
+CREATE PROCEDURE find_players ()
+BEGIN
+SELECT COUNT(*) INTO playerCount
+FROM s_player
+WHERE s_player.id = playerId;
 END

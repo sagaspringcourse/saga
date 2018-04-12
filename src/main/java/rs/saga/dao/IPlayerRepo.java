@@ -12,24 +12,21 @@ import java.util.List;
  */
 public interface IPlayerRepo {
 
-    Long countPlayers(long playerId);
 
     List<Player> findAll();
 
-    List<Team> findTeams();
+    List<Player> findPlayersWithPositionalParameter(Integer ageMin, Integer ageMax);
 
-    List<Player> findPlayersWithNamedParameter(Integer ageL, Integer ageU);
+    List<Player> findPlayersUsingNamedParameters(Integer ageMin, Integer ageMax);
 
-    List<Team> findTeamsFunctionTest();
+    List<Team> findTeamsUsingJoin();
 
-    List<Team> findTeamsNamed();
+    List<Team> findTeamsUsingFunction();
 
-    List<Player> findPlayersWithPositionalParameter(Integer ageL, Integer ageU);
+    List<Team> findTeamsUsingNamedQuery();
 
-    Player get(Long playerId);
+    List<Player> findAllUsingNativeQuery();
 
-    void remove(Player nino);
-
-    int save(Player player);
+    Long countPlayersUsingStoredProcedure(long playerId);
 
 }

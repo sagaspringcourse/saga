@@ -46,32 +46,52 @@ public class HibernatePlayerDAOIT {
 
     @Test
     public void testFindPlayersNamed() {
-        List<Player> all = playerRepo.findPlayersWithNamedParameter(28, 30);
+        List<Player> all = playerRepo.findPlayersUsingNamedParameters(28, 30);
 
         assertEquals(2, all.size());
     }
 
     @Test
     public void testNamedQuery() {
-        List<Team> all = playerRepo.findTeamsNamed();
+        List<Team> all = playerRepo.findTeamsUsingNamedQuery();
 
         assertEquals(2, all.size());
     }
 
     @Test
     public void testFindTeams() {
-        List<Team> all = playerRepo.findTeams();
+        List<Team> all = playerRepo.findTeamsUsingJoin();
 
         assertEquals(2, all.size());
     }
 
     @Test
     public void testFindFunctions() {
-        List<Team> all = playerRepo.findTeamsFunctionTest();
+        List<Team> all = playerRepo.findTeamsUsingFunction();
 
         assertEquals(1, all.size());
     }
 
+    @Test
+    public void testFind() {
+        List<Team> all = playerRepo.findTeamsUsingFunction();
+
+        assertEquals(1, all.size());
+    }
+
+    @Test
+    public void testFindAllUsingNativeQuery() {
+        List<Player> players = playerRepo.findAllUsingNativeQuery();
+
+        assertEquals(7, players.size());
+    }
+
+    @Test
+    public void testCountPlayersUsingStoredProcedure() {
+        Long count = playerRepo.countPlayersUsingStoredProcedure(1l);
+
+        assertEquals(new Long(1), count);
+    }
 
     @Import(HibernateConfig.class)
     @Configuration

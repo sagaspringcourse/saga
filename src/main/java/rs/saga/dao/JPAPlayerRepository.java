@@ -9,6 +9,7 @@ import rs.saga.domain.Team;
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.StoredProcedureQuery;
 import javax.persistence.TypedQuery;
 import java.util.List;
@@ -29,23 +30,6 @@ public class JPAPlayerRepository implements IPlayerRepo {
         this.entityManager = entityManager;
     }
 
-    @Override
-    public void remove(Player nino) {
-        entityManager.remove(nino);
-    }
-
-
-    @Override
-    public int save(Player player) {
-        int sqlCode = 0;
-        try {
-            entityManager.persist(player);
-        } catch (Exception e) {
-            sqlCode = 1;
-        }
-        return sqlCode;
-    }
-
 
     @Override
     public List<Player> findAll() {
@@ -54,50 +38,52 @@ public class JPAPlayerRepository implements IPlayerRepo {
     }
 
     @Override
-    public List<Player> findPlayersWithPositionalParameter(Integer ageL, Integer ageU) {
+    public List<Player> findPlayersWithPositionalParameter(Integer ageMin, Integer ageMax) {
         TypedQuery<Player> query = entityManager.createQuery("from Player p where (p.age between ?1 and ?2) and firstName like '%ik%' order by p.firstName", Player.class);
-        query.setParameter(1, ageL);
-        query.setParameter(2, ageU);
+        query.setParameter(1, ageMin);
+        query.setParameter(2, ageMax);
         return query.getResultList();
     }
 
     @Override
-    public List<Player> findPlayersWithNamedParameter(Integer ageL, Integer ageU) {
+    public List<Player> findAllUsingNativeQuery() {
+        Query query = entityManager.createNativeQuery("SELECT * FROM s_player", Player.class);
+
+        List<Player> players = query.getResultList();
+        return players;
+    }
+
+    @Override
+    public List<Player> findPlayersUsingNamedParameters(Integer ageMin, Integer ageMax) {
         TypedQuery<Player> query = entityManager.createQuery("from Player p where (p.age between :ageMin and :ageMax) and firstName like '%ik%' order by p.firstName", Player.class);
-        query.setParameter("ageMin", ageL);
-        query.setParameter("ageMax", ageU);
+        query.setParameter("ageMin", ageMin);
+        query.setParameter("ageMax", ageMax);
         return query.getResultList();
     }
 
     @Override
-    public List<Team> findTeamsFunctionTest() {
+    public List<Team> findTeamsUsingFunction() {
         TypedQuery<Team> query = entityManager.createQuery("select distinct(p.team) from Player p join p.team where lower(p.team.name) = 'crvena zvezda'", Team.class);
         List<Team> teams = query.getResultList();
         return teams;
     }
 
     @Override
-    public List<Team> findTeamsNamed() {
+    public List<Team> findTeamsUsingNamedQuery() {
         TypedQuery<Team> query = entityManager.createNamedQuery("Team.withMoreThanOnePlayer", Team.class);
         List<Team> teams = query.getResultList();
         return teams;
     }
 
     @Override
-    public List<Team> findTeams() {
+    public List<Team> findTeamsUsingJoin() {
         TypedQuery<Team> query = entityManager.createQuery("select distinct p.team from Player p join p.team group by p.team.name having count(*) > 2", Team.class);
         List<Team> teams = query.getResultList();
         return teams;
     }
 
-
     @Override
-    public Player get(Long playerId) {
-        return entityManager.find(Player.class, playerId);
-    }
-
-    @Override
-    public Long countPlayers(long playerId) {
+    public Long countPlayersUsingStoredProcedure(long playerId) {
         StoredProcedureQuery query = entityManager
                 .createStoredProcedureQuery("count_players")
                 .registerStoredProcedureParameter(
