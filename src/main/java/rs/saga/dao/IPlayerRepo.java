@@ -3,6 +3,7 @@ package rs.saga.dao;
 
 import rs.saga.domain.Player;
 import rs.saga.domain.Team;
+import rs.saga.dto.PAgeAndNameDTO;
 
 import java.util.List;
 
@@ -14,6 +15,8 @@ public interface IPlayerRepo {
 
 
     List<Player> findAll();
+
+    List<PAgeAndNameDTO> playerAgeAndNames();
 
     List<Player> findPlayersWithPositionalParameter(Integer ageMin, Integer ageMax);
 

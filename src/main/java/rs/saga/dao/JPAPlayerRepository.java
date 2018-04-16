@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import rs.saga.domain.Player;
 import rs.saga.domain.Team;
+import rs.saga.dto.PAgeAndNameDTO;
 
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
@@ -35,6 +36,12 @@ public class JPAPlayerRepository implements IPlayerRepo {
     public List<Player> findAll() {
         TypedQuery<Player> query = entityManager.createQuery("from Player p order by p.firstName", Player.class);
         return query.getResultList();
+    }
+
+    @Override
+    public List<PAgeAndNameDTO> playerAgeAndNames() {
+        List<PAgeAndNameDTO> players = entityManager.createNamedQuery("Player.nameAndAge", PAgeAndNameDTO.class).getResultList();
+        return players;
     }
 
     @Override

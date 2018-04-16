@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import rs.saga.domain.Player;
 import rs.saga.domain.Team;
+import rs.saga.dto.PAgeAndNameDTO;
 
 import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureQuery;
@@ -41,6 +42,11 @@ public class HibernatePlayerRepository implements IPlayerRepo {
         Query query = getSession().createQuery("select p from Player p");
         List<Player> players = query.getResultList();
         return players;
+    }
+
+    @Override
+    public List<PAgeAndNameDTO> playerAgeAndNames() {
+        return null;
     }
 
     @Override

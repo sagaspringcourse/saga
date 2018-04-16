@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import rs.saga.config.JPAConfig;
 import rs.saga.domain.Player;
 import rs.saga.domain.Team;
+import rs.saga.dto.PAgeAndNameDTO;
 
 import java.util.List;
 
@@ -33,6 +34,14 @@ public class JPAPlayerDAOIT {
 
         assertEquals(7, all.size());
     }
+
+    @Test
+    public void testFindAgeAndNames() {
+        List<PAgeAndNameDTO> all = playerRepo.playerAgeAndNames();
+
+        assertEquals(7, all.size());
+    }
+
 
     @Test
     public void testFindPlayersPositional() {

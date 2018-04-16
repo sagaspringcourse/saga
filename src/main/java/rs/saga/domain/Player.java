@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.ArrayList;
@@ -21,6 +23,10 @@ import java.util.List;
  */
 @Entity
 @Table(name = "s_player")
+@NamedQueries(value = {
+        @NamedQuery(name = "Player.nameAndAge",
+                query = "select new rs.saga.dto.PAgeAndNameDTO(p.age, p.firstName) from Player p")
+})
 public class Player {
 
     @Id
@@ -52,8 +58,8 @@ public class Player {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "PLAYER_SKILL",
-        joinColumns = @JoinColumn(name = "PLAYER_ID", referencedColumnName = "ID"),
-        inverseJoinColumns = @JoinColumn(name = "SKILL_ID", referencedColumnName = "ID")
+            joinColumns = @JoinColumn(name = "PLAYER_ID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "SKILL_ID", referencedColumnName = "ID")
     )
     private List<Skill> skills = new ArrayList<>();
 
