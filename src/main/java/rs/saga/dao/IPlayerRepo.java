@@ -1,35 +1,16 @@
 package rs.saga.dao;
 
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import rs.saga.domain.Player;
-import rs.saga.domain.Team;
-import rs.saga.dto.PAgeAndNameDTO;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * @author <a href="mailto:slavisa.avramovic@escriba.de">avramovics</a>
  * @since 2018-03-15
  */
-public interface IPlayerRepo {
+public interface IPlayerRepo extends JpaRepository<Player, Long> {
 
-
-    List<Player> findAll();
-
-    List<PAgeAndNameDTO> playerAgeAndNames();
-
-    List<Player> findPlayersWithPositionalParameter(Integer ageMin, Integer ageMax);
-
-    List<Player> findPlayersUsingNamedParameters(Integer ageMin, Integer ageMax);
-
-    List<Team> findTeamsUsingJoin();
-
-    List<Team> findTeamsUsingFunction();
-
-    List<Team> findTeamsUsingNamedQuery();
-
-    List<Player> findAllUsingNativeQuery();
-
-    Long countPlayersUsingStoredProcedure(long playerId);
-
+    Set<Player> findByFirstName(String firstName);
 }

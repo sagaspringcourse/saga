@@ -17,8 +17,18 @@
         </encoder>
     </appender>
 
+    <logger name="org.springframework" level="debug"/>
+
     # Override log level for specified package
+
+    #log4j.logger.org.hibernate.SQL=debug
+    #log4j.logger.org.hibernate.type.descriptor.sql=trace
+    <logger name="org.hibernate.SQL" level="DEBUG"/>
+    <logger name="org.hibernate.type.descriptor.sql" level="TRACE"/>
+    <logger name="org.hibernate.stat" level="DEBUG"/>
+
     <root level="WARN">
+        <appender-ref ref="stdout"/>
         <appender-ref ref="fout"/>
     </root>
 </configuration>
