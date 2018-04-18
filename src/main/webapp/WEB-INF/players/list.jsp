@@ -101,6 +101,7 @@
                             <a href="${showUrl}">${user.id}</a>
                         </td>
                         <td>
+                                ${user.credentials.username}
                         </td>
                         <td>
                                 ${user.firstName}

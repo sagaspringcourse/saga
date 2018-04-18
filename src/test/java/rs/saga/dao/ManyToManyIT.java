@@ -11,7 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import rs.saga.builder.PlayerBuilder;
-import rs.saga.config.DataSourceConfig;
+import rs.saga.config.JPAConfig;
 import rs.saga.domain.Player;
 import rs.saga.domain.Skill;
 
@@ -70,7 +70,7 @@ public class ManyToManyIT {
     }
 
     @Configuration
-    @Import(DataSourceConfig.class)
+    @Import(JPAConfig.class)
     @EnableJpaRepositories
     static class TestConfig {
 
