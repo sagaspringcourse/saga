@@ -8,14 +8,4 @@
     <display-name>HelloWorld Application</display-name>
     <description>Mini Servlet based MVC example</description>
 
-    <servlet>
-        <servlet-name>HelloServlet</servlet-name>
-        <servlet-class>rs.saga.mvc.controller.HelloWorldServlet</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>HelloServlet</servlet-name>
-        <url-pattern>/hello/*</url-pattern>
-    </servlet-mapping>
-
 </web-app>
