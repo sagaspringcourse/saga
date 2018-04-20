@@ -1,6 +1,12 @@
-package rs.saga.config;
+package rs.saga.init;
 
+import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+import rs.saga.config.GameConfig;
+import rs.saga.config.WebConfig;
+
+import javax.servlet.Filter;
 
 public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
@@ -24,6 +30,13 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
         return new String[]{"/"};
     }
 
+    @Override
+    protected Filter[] getServletFilters() {
+        CharacterEncodingFilter cef = new CharacterEncodingFilter();
+        cef.setEncoding("UTF-8");
+        cef.setForceEncoding(true);
+        return new Filter[]{new HiddenHttpMethodFilter(), cef};
+    }
 
 }
 
