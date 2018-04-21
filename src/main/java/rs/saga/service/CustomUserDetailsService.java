@@ -11,11 +11,15 @@ import rs.saga.domain.Player;
 import java.util.List;
 
 @Component
-public class CustomUserDetailsService implements UserDetailsService
-{
+public class CustomUserDetailsService implements UserDetailsService {
+
+  private final IPlayerService userService;
+
   @Autowired
-  private IPlayerService userService;
-   
+  public CustomUserDetailsService(IPlayerService userService) {
+    this.userService = userService;
+  }
+
   @Override
   public UserDetails loadUserByUsername(String userName)
       throws UsernameNotFoundException {
