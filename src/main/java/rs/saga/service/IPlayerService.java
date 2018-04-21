@@ -9,5 +9,9 @@ import java.util.List;
  * @since 2018-04-16
  */
 public interface IPlayerService {
+    void deleteById(Long id);
+
     List<Player> findAll();
+
+    Player findById(Long id);
 }

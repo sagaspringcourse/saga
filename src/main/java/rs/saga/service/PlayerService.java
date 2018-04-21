@@ -25,7 +25,17 @@ public class PlayerService implements IPlayerService {
     }
 
     @Override
+    public void deleteById(Long id) {
+        playerRepo.delete(id);
+    }
+
+    @Override
     public List<Player> findAll() {
         return playerRepo.findAll();
+    }
+
+    @Override
+    public Player findById(Long id) {
+        return playerRepo.findOne(id);
     }
 }

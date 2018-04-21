@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
@@ -28,9 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) {
         try {
-            auth.inMemoryAuthentication().withUser("john").password("doe").roles("USER")
-                    .and()
-                    .withUser("jane").password("doe").roles("USER","ADMIN")
+            auth.inMemoryAuthentication().withUser("guest").password("guest").roles("USER")
                     .and()
                     .withUser("admin").password("admin").roles("ADMIN");
         } catch (Exception e) {
@@ -42,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/users/delete/**").hasRole("ADMIN")
+                .antMatchers("/players/delete/**").hasRole("ADMIN")
                 .antMatchers("/**").hasAnyRole("ADMIN","USER")
                 .anyRequest()
                 .authenticated()
@@ -71,5 +70,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         repo.setHeaderName("X-CSRF-TOKEN");
         return repo;
     }
+
+    @SuppressWarnings("deprecation")
+    @Bean
+    public static NoOpPasswordEncoder passwordEncoder() {
+        return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
+    }
+
 
 }

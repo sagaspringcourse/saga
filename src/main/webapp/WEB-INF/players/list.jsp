@@ -86,10 +86,10 @@
             <table>
                 <thead>
                 <tr>
-                    <sec:authorize url='/users/show/*'>
-                    <td>
-                        <spring:message code="label.User.count"/>
-                    </td>
+                    <sec:authorize url='/players/show/*'>
+                        <td>
+                            <spring:message code="label.User.count"/>
+                        </td>
                     </sec:authorize>
                     <td>
                         <spring:message code="label.User.username"/>
@@ -100,12 +100,9 @@
                     <td>
                         <spring:message code="label.User.lastname"/>
                     </td>
-                    <td>
-                        <spring:message code="label.User.type"/>
-                    </td>
-                    <sec:authorize url='/users/delete/*'>
+                    <sec:authorize url='/players/delete/*'>
                         <td>
-                            <spring:message code="label.delete"/></a>
+                            <spring:message code="label.delete"/>
                         </td>
                     </sec:authorize>
                 </tr>
@@ -113,12 +110,12 @@
                 <c:forEach var="user" items="${players}">
                     <tr>
                         <sec:authorize url='/players/show/*'>
-                        <td>
-                                <spring:url var="showUrl" value="{id}">
+                            <td>
+                                <spring:url var="showUrl" value="show/{id}">
                                     <spring:param name="id" value="${user.id}"/>
                                 </spring:url>
                                 <a href="${showUrl}">${user.id}</a>
-                        </td>
+                            </td>
                         </sec:authorize>
                         <td>
                                 ${user.credentials.username}
