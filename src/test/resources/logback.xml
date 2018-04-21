@@ -7,16 +7,6 @@
         </layout>
     </appender>
 
-    # File appender
-    <appender name="fout" class="ch.qos.logback.core.FileAppender">
-        <file>spring.log</file>
-        <append>false</append>
-        <encoder>
-            # Pattern of log message for file appender
-            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p %m%n</pattern>
-        </encoder>
-    </appender>
-
     <logger name="org.springframework" level="debug"/>
 
     # Override log level for specified package
@@ -29,6 +19,5 @@
 
     <root level="WARN">
         <appender-ref ref="stdout"/>
-        <appender-ref ref="fout"/>
     </root>
 </configuration>

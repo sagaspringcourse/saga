@@ -38,4 +38,13 @@ public class PlayerService implements IPlayerService {
     public Player findById(Long id) {
         return playerRepo.findOne(id);
     }
+
+    public Player findByUsername(String userName) {
+        return playerRepo.findByCredentials_Username(userName);
+    }
+
+    @Override
+    public List<String> findPlayerRoles(String userName) {
+        return playerRepo.findPlayerRoles(userName);
+    }
 }
