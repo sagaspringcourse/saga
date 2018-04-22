@@ -4,7 +4,6 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 import rs.saga.config.GameConfig;
-import rs.saga.config.MethodSecurityConfig;
 import rs.saga.config.SecurityConfig;
 import rs.saga.config.WebConfig;
 
@@ -16,7 +15,7 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
     @Override
     protected Class<?>[] getRootConfigClasses() {
         return new Class<?>[]{
-                SecurityConfig.class, MethodSecurityConfig.class, GameConfig.class
+                SecurityConfig.class, GameConfig.class
         };
     }
 
