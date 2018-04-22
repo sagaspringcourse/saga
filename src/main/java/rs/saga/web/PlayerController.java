@@ -1,6 +1,8 @@
 package rs.saga.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,6 +40,8 @@ public class PlayerController {
 	/**
 	 * Handles requests to show detail about one user.
 	 */
+	@PreAuthorize("#id == principal.id")
+	@PostAuthorize("principal.username == #model['username']")
 	@RequestMapping(value = "/show/{id:[\\d]*}", method = RequestMethod.GET)
 	public String show(@PathVariable Long id, Model model) throws NotFoundException {
 		Player user = playerService.findById(id);
@@ -45,6 +49,7 @@ public class PlayerController {
 			throw new NotFoundException(Player.class, id);
 		}
 		model.addAttribute("player", user);
+		model.addAttribute("username", user.getCredentials().getUsername());
 		return "players/show";
 	}
 

@@ -9,17 +9,20 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class SecurityUser extends Player implements UserDetails {
+public class SecurityUser implements UserDetails {
     private static final long serialVersionUID = 1L;
     private String password;
-    private Collection<GrantedAuthority> authorities  = new ArrayList<>();
+    private Collection<GrantedAuthority> authorities = new ArrayList<>();
+    private Long id;
+    private String email;
+    private String username;
 
     public SecurityUser(Player user, List<String> roles) {
         if (user != null) {
-            this.setId(user.getId());
-            this.setFirstName(user.getFirstName());
-            this.setEmail(user.getEmail());
-            this.setPassword(user.getCredentials().getPassword());
+            this.id = user.getId();
+            this.email = user.getEmail();
+            this.password = user.getCredentials().getPassword();
+            this.username = user.getCredentials().getUsername();
 
             //Collection<GrantedAuthority> authorities
             for (String role : roles) {
@@ -41,7 +44,7 @@ public class SecurityUser extends Player implements UserDetails {
 
     @Override
     public String getUsername() {
-        return super.getEmail();
+        return username;
     }
 
     @Override
@@ -66,5 +69,21 @@ public class SecurityUser extends Player implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
