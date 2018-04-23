@@ -24,8 +24,7 @@
             <th><spring:message code="login.password"/></th>
             <th><spring:message code="login.role"/></th>
         </tr>
-        <tr><td>john</td><td>doe</td><td>ROLE_USER</td></tr>
-        <tr><td>jane</td><td>doe</td><td>ROLE_USER,ROLE_ADMIN</td></tr>
+        <tr><td>guest</td><td>guest</td><td>ROLE_USER</td></tr>
         <tr><td>admin</td><td>admin</td><td>ROLE_ADMIN</td></tr>
     </table>
 </div>
