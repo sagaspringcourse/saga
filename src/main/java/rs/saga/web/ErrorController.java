@@ -14,8 +14,12 @@ import java.util.Locale;
 @RequestMapping("/errors")
 public class ErrorController {
 
+	private final MessageSource messageSource;
+
 	@Autowired
-	private MessageSource messageSource;
+	public ErrorController(MessageSource messageSource) {
+		this.messageSource = messageSource;
+	}
 
 	@RequestMapping(value = "/403", method = RequestMethod.GET)
 	public String list(Model model, Locale locale) {
