@@ -2,6 +2,7 @@ DROP DATABASE IF EXISTS saga;
 CREATE DATABASE IF NOT EXISTS saga CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE saga;
 
+
 create table player_skill
 (
   PLAYER_ID bigint not null,
@@ -15,6 +16,21 @@ create index FK2052i5ac152a306b9s4pcebpm
 
 create index FK5kbdrfq7q5glgjv2isul6p65u
   on player_skill (PLAYER_ID)
+;
+
+create table role_player
+(
+  ROLE_ID int not null,
+  PLAYER_ID bigint not null
+)
+;
+
+create index FKh4pt3qllu20e05vbjedmm6ngt
+  on role_player (PLAYER_ID)
+;
+
+create index FKoyty8ncus4bmltht8hvmougkw
+  on role_player (ROLE_ID)
 ;
 
 create table s_credentials
@@ -31,50 +47,6 @@ create index FKf28acj2cixu7tgy7ktg0sx8q7
   on s_credentials (PLAYER_ID)
 ;
 
-create table s_game
-(
-  DTYPE varchar(31) not null,
-  ID bigint not null auto_increment
-    primary key,
-  DATE_PLAYED datetime null,
-  PLAYER_ID bigint null,
-  AWAY_TEAM_ID bigint null,
-  HOME_TEAM_ID bigint null,
-  TEAM_ID bigint null
-)
-;
-
-create index FK1ewi1nqvkdmjda96e765sd4qi
-  on s_game (AWAY_TEAM_ID)
-;
-
-create index FK7ayyk513fdwmbimq9kwfkvgne
-  on s_game (HOME_TEAM_ID)
-;
-
-create index FKjqdomg0ucqj0hgx76kh9p93bb
-  on s_game (PLAYER_ID)
-;
-
-create index FKn9w8pwge38ontol40gd3v6qbi
-  on s_game (TEAM_ID)
-;
-
-create table s_game_s_player
-(
-  MultiPlayerGame_ID bigint not null,
-  players_ID bigint not null,
-  constraint UK_l99dxg9lla65i7qg1r17wqih6
-  unique (players_ID),
-  constraint FKruyjfbyjfrtmxxu7kw2vimich
-  foreign key (MultiPlayerGame_ID) references saga.s_game (ID)
-)
-;
-
-create index FKruyjfbyjfrtmxxu7kw2vimich
-  on s_game_s_player (MultiPlayerGame_ID)
-;
-
 create table s_player
 (
   ID bigint not null auto_increment
@@ -86,6 +58,7 @@ create table s_player
   GENDER varchar(255) null,
   LAST_NAME varchar(255) null,
   TEAM_ID bigint null
+
 )
 ;
 
@@ -98,34 +71,27 @@ alter table player_skill
 foreign key (PLAYER_ID) references saga.s_player (ID)
 ;
 
+alter table role_player
+  add constraint FKh4pt3qllu20e05vbjedmm6ngt
+foreign key (PLAYER_ID) references saga.s_player (ID)
+;
+
 alter table s_credentials
   add constraint FKf28acj2cixu7tgy7ktg0sx8q7
 foreign key (PLAYER_ID) references saga.s_player (ID)
-;
-
-alter table s_game
-  add constraint FKjqdomg0ucqj0hgx76kh9p93bb
-foreign key (PLAYER_ID) references saga.s_player (ID)
-;
-
-alter table s_game_s_player
-  add constraint FKqgee4fvt1ncuwgtisn09gnmwk
-foreign key (players_ID) references saga.s_player (ID)
 ;
 
 create table s_role
 (
   id int not null auto_increment
     primary key,
-  ROLE_NAME varchar(255) not null,
-  PLAYER_ID bigint not null,
-  constraint FKgbsqvl8j3m2e77atccttmequ4
-  foreign key (PLAYER_ID) references saga.s_player (ID)
+  ROLE_NAME varchar(255) not null
 )
 ;
 
-create index FKgbsqvl8j3m2e77atccttmequ4
-  on s_role (PLAYER_ID)
+alter table role_player
+  add constraint FKoyty8ncus4bmltht8hvmougkw
+foreign key (ROLE_ID) references saga.s_role (id)
 ;
 
 create table s_skill
@@ -148,21 +114,6 @@ create table s_team
     primary key,
   NAME varchar(255) null
 )
-;
-
-alter table s_game
-  add constraint FK1ewi1nqvkdmjda96e765sd4qi
-foreign key (AWAY_TEAM_ID) references saga.s_team (ID)
-;
-
-alter table s_game
-  add constraint FK7ayyk513fdwmbimq9kwfkvgne
-foreign key (HOME_TEAM_ID) references saga.s_team (ID)
-;
-
-alter table s_game
-  add constraint FKn9w8pwge38ontol40gd3v6qbi
-foreign key (TEAM_ID) references saga.s_team (ID)
 ;
 
 alter table s_player

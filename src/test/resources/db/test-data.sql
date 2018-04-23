@@ -11,13 +11,32 @@ INSERT INTO S_PLAYER(ID, FIRST_NAME, LAST_NAME, ADDRESS, EMAIL, AGE, GENDER,  TE
 INSERT INTO S_PLAYER(ID, FIRST_NAME, LAST_NAME, ADDRESS, EMAIL, AGE, GENDER,  TEAM_ID) VALUES (5, 'Nikola', 'Stankovic', 'Novi Beograd', 'nikola.s@saga.rs', 29, 'MALE',2);
 INSERT INTO S_PLAYER(ID, FIRST_NAME, LAST_NAME, ADDRESS, EMAIL, AGE, GENDER,  TEAM_ID) VALUES (6, 'Radenko', 'Jovicic', 'Novi Beograd', 'radenko@saga.rs', 30, 'MALE',2);
 INSERT INTO S_PLAYER(ID, FIRST_NAME, LAST_NAME, ADDRESS, EMAIL, AGE, GENDER,  TEAM_ID) VALUES (7, 'Rados', 'Scepanovic', 'Novi Beograd', 'rados@saga.rs', 31,  'MALE',3);
+INSERT INTO S_PLAYER(ID, FIRST_NAME, LAST_NAME, ADDRESS, EMAIL, AGE, GENDER,  TEAM_ID) VALUES (8, 'Milos', 'Jelicic', 'Novi Beograd', 'jelicic.m@saga.rs', 32,  'MALE',2);
+INSERT INTO S_PLAYER(ID, FIRST_NAME, LAST_NAME, ADDRESS, EMAIL, AGE, GENDER,  TEAM_ID) VALUES (9, 'Nikola', 'Ninovic', 'Novi Beograd', 'nikol.n@saga.rs', 33,  'MALE',1);
 
 INSERT INTO s_credentials (PASSWORD, USERNAME, PLAYER_ID) VALUES ( 'pass', 'badjevic.m', 1);
 INSERT INTO s_credentials (PASSWORD, USERNAME, PLAYER_ID) VALUES ( 'pass', 'dimitrijevic.a', 2);
+INSERT INTO s_credentials (PASSWORD, USERNAME, PLAYER_ID) VALUES ( 'pass', 'miljevic.m', 3);
+INSERT INTO s_credentials (PASSWORD, USERNAME, PLAYER_ID) VALUES ( 'pass', 'mijailovic.n', 4);
+INSERT INTO s_credentials (PASSWORD, USERNAME, PLAYER_ID) VALUES ( 'pass', 'stankovic.n', 5);
+INSERT INTO s_credentials (PASSWORD, USERNAME, PLAYER_ID) VALUES ( 'pass', 'jovicic.r', 6);
+INSERT INTO s_credentials (PASSWORD, USERNAME, PLAYER_ID) VALUES ( 'pass', 'scepanovic.r', 7);
+INSERT INTO s_credentials (PASSWORD, USERNAME, PLAYER_ID) VALUES ( 'pass', 'jelicic.m', 8);
+INSERT INTO s_credentials (PASSWORD, USERNAME, PLAYER_ID) VALUES ( 'pass', 'ninovic.n', 9);
 
-INSERT INTO s_role (ROLE_NAME, PLAYER_ID) VALUES ( 'ROLE_ADMIN', 1);
-INSERT INTO s_role (ROLE_NAME, PLAYER_ID) VALUES ( 'ROLE_USER', 1);
-INSERT INTO s_role (ROLE_NAME, PLAYER_ID) VALUES ( 'ROLE_USER', 2);
+INSERT INTO s_role (id, ROLE_NAME) VALUES (1, 'ROLE_ADMIN');
+INSERT INTO s_role (id, ROLE_NAME) VALUES ( 2, 'ROLE_USER');
+
+INSERT INTO role_player (ROLE_ID, PLAYER_ID) VALUES ( 1, 9);
+INSERT INTO role_player (ROLE_ID, PLAYER_ID) VALUES ( 2, 9);
+INSERT INTO role_player (ROLE_ID, PLAYER_ID) VALUES ( 2, 1);
+INSERT INTO role_player (ROLE_ID, PLAYER_ID) VALUES ( 2, 2);
+INSERT INTO role_player (ROLE_ID, PLAYER_ID) VALUES ( 2, 3);
+INSERT INTO role_player (ROLE_ID, PLAYER_ID) VALUES ( 2, 4);
+INSERT INTO role_player (ROLE_ID, PLAYER_ID) VALUES ( 2, 5);
+INSERT INTO role_player (ROLE_ID, PLAYER_ID) VALUES ( 2, 6);
+INSERT INTO role_player (ROLE_ID, PLAYER_ID) VALUES ( 2, 7);
+INSERT INTO role_player (ROLE_ID, PLAYER_ID) VALUES ( 2, 8);
 
 
 set FOREIGN_KEY_CHECKS = 1;

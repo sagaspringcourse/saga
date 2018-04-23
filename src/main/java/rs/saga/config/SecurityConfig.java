@@ -64,6 +64,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().csrfTokenRepository(repo());
 
+        // Exception Handling
+        http.exceptionHandling()
+                .accessDeniedPage("/errors/403");
+
     }
 
     @Bean

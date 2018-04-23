@@ -58,24 +58,25 @@
                     <a href="<c:url value="/"/>"><spring:message code="menu.home"/></a>
                 </c:if>
             </li>
-            <li><c:if test="${menuTab eq 'players'}">
-                <strong><a href="<c:url value="/players/list"/>"><spring:message code="menu.users"/></a></strong>
-            </c:if>
+            <li>
+                <c:if test="${menuTab eq 'players'}">
+                   <strong><a href="<c:url value="/players/list"/>"><spring:message code="menu.users"/></a></strong>
+                </c:if>
                 <c:if test="${menuTab != 'players'}">
                     <a href="<c:url value="/players/list"/>"><spring:message code="menu.users"/></a>
                 </c:if>
             </li>
+            <sec:authorize access="isAuthenticated()">
+                <li>
+                    <spring:url value="/logout" var="logoutUrl"/>
+                    <form action="${logoutUrl}" id="logout" method="post">
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                    </form>
+                    <a href="#" onclick="document.getElementById('logout').submit();"><spring:message
+                            code="menu.logout"/></a>
+                </li>
+            </sec:authorize>
         </ul>
-        <sec:authorize access="isAuthenticated()">
-            <li>
-                <spring:url value="/logout" var="logoutUrl"/>
-                <form action="${logoutUrl}" id="logout" method="post">
-                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                </form>
-                <a href="#" onclick="document.getElementById('logout').submit();"><spring:message
-                        code="menu.logout"/></a>
-            </li>
-        </sec:authorize>
     </div>
     <div class="content">
         <h2>

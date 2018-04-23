@@ -19,6 +19,6 @@ public interface IPlayerRepo extends JpaRepository<Player, Long> {
 
     Player findByCredentials_Username(String username);
 
-    @Query("select r.roleName from Role r where r.player.credentials.username = :userName")
+    @Query("select r.roleName from Role r left join r.player p where  p.credentials.username = :userName")
     List<String> findPlayerRoles(@Param("userName") String userName);
 }
