@@ -12,6 +12,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -68,7 +70,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // add error page
         http.exceptionHandling()
                 .accessDeniedPage("/errors/403");
+
+        // add CSRF protection
+        http.csrf().csrfTokenRepository(repo());
     }
+
+    @Bean
+    public CsrfTokenRepository repo() {
+        HttpSessionCsrfTokenRepository repo = new HttpSessionCsrfTokenRepository();
+        repo.setParameterName("_csrf");
+        repo.setHeaderName("X-CSRF-TOKEN");
+        return repo;
+    }
+
 
     @SuppressWarnings("deprecation")
     @Bean

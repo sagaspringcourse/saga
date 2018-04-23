@@ -48,4 +48,9 @@ public class PlayerService implements IPlayerService {
     public List<String> findPlayerRoles(String userName) {
         return playerRepo.findPlayerRoles(userName);
     }
+
+    @Override
+    public Player save(Player player) {
+      return  playerRepo.save(player);
+    }
 }

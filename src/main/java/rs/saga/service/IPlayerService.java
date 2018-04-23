@@ -18,4 +18,6 @@ public interface IPlayerService {
     Player findByUsername(String userName);
 
     List<String> findPlayerRoles(String userName);
+
+    Player save(Player player);
 }
