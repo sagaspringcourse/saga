@@ -29,6 +29,7 @@ public class PlayerService implements IPlayerService {
         playerRepo.delete(id);
     }
 
+    //@PostFilter("hasRole('ROLE_ADMIN') or principal.id == filterObject.id")
     @Override
     public List<Player> findAll() {
         return playerRepo.findAll();

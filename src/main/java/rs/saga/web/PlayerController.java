@@ -40,6 +40,7 @@ public class PlayerController {
 	 * Handles requests to show detail about one user.
 	 */
 	@PreAuthorize("hasRole('ROLE_ADMIN') or #id == principal.id")
+	// @PostAuthorize("#model['username'] == 'badjevic.m'")
 	@RequestMapping(value = "/show/{id:[\\d]*}", method = RequestMethod.GET)
 	public String show(@PathVariable Long id, Model model) throws NotFoundException {
 		Player user = playerService.findById(id);
