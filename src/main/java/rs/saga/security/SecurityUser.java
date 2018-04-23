@@ -1,4 +1,4 @@
-package rs.saga.config;
+package rs.saga.security;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

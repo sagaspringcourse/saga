@@ -2,21 +2,19 @@ package rs.saga.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.web.csrf.CsrfTokenRepository;
-import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@ComponentScan("rs.saga.security")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
@@ -42,13 +40,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        // matching
         http
                 .authorizeRequests()
                 .antMatchers("/players/delete/**").hasRole("ADMIN")
                 .antMatchers("/**").hasAnyRole("ADMIN","USER")
-                .anyRequest()
-                .authenticated()
-                .and()
+                .anyRequest().authenticated();
+
+        // login
+        http
                 .formLogin()
                 .usernameParameter("username")
                 .passwordParameter("password")
@@ -56,26 +56,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/auth")
                 .failureUrl("/auth?auth_error=1")
                 .defaultSuccessUrl("/home")
-                .permitAll()
-                .and()
-                .logout()
+                .permitAll();
+
+        // logout
+        http.logout()
                 .logoutUrl("/logout")
-                .logoutSuccessUrl("/")
-                .and()
-                .csrf().csrfTokenRepository(repo());
-
-        // Exception Handling
-        http.exceptionHandling()
-                .accessDeniedPage("/errors/403");
-
-    }
-
-    @Bean
-    public CsrfTokenRepository repo() {
-        HttpSessionCsrfTokenRepository repo = new HttpSessionCsrfTokenRepository();
-        repo.setParameterName("_csrf");
-        repo.setHeaderName("X-CSRF-TOKEN");
-        return repo;
+                .logoutSuccessUrl("/");
     }
 
     @SuppressWarnings("deprecation")
