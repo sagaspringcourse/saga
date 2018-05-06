@@ -3,6 +3,7 @@ package rs.saga.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -20,6 +21,7 @@ import java.util.Locale;
 
 @Configuration
 @EnableWebMvc
+@EnableAspectJAutoProxy
 @ComponentScan(basePackages = {"rs.saga.web"})
 public class WebConfig implements WebMvcConfigurer {
     //Declare our static resources. I added cache to the java config but it?s not required.
@@ -38,8 +40,8 @@ public class WebConfig implements WebMvcConfigurer {
     // Serves up cached and compressed static content at /resources/* from the webapp root and classpath
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("hello");
-        registry.addViewController("/home").setViewName("hello");
+        registry.addViewController("/").setViewName("home");
+        registry.addViewController("/home").setViewName("home");
         registry.addViewController("/auth").setViewName("auth");
         registry.addViewController("/cancel").setViewName("cancel");
     }
@@ -53,6 +55,7 @@ public class WebConfig implements WebMvcConfigurer {
         resolver.setRequestContextAttribute("requestContext");
         return resolver;
     }
+
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {

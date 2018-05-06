@@ -9,6 +9,9 @@
     <title>
         <spring:message code="login.title" />
     </title>
+    <spring:theme var="cssStyle" code="css.style"/>
+    <link type="text/css" rel="stylesheet" href="<c:url value="${cssStyle}" />"/>
+    <link type="text/css" rel="stylesheet" href="<c:url value="/styles/general.css" />"/>
 </head>
 <body>
 <div id="page">
@@ -21,8 +24,8 @@
             <th><spring:message code="login.password"/></th>
             <th><spring:message code="login.role"/></th>
         </tr>
-        <tr><td>guest</td><td>guest</td><td>ROLE_USER</td></tr>
-        <tr><td>admin</td><td>admin</td><td>ROLE_ADMIN</td></tr>
+        <tr><td>pass</td><td>ninovic.n</td><td>ROLE_USER, ROLE_ADMIN</td></tr>
+        <tr><td>pass</td><td>*</td><td>ROLE_USER</td></tr>
     </table>
 </div>
     <p><h3><spring:message code="login.message"/></h3></p>
