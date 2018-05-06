@@ -14,4 +14,10 @@ public interface IPlayerService {
     List<Player> findAll();
 
     Player findById(Long id);
+
+    Player findByUsername(String userName);
+
+    List<String> findPlayerRoles(String userName);
+
+    Player save(Player player);
 }
