@@ -15,7 +15,7 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
     @Override
     protected Class<?>[] getRootConfigClasses() {
         return new Class<?>[]{
-               SecurityConfig.class, GameConfig.class
+                SecurityConfig.class, GameConfig.class
         };
     }
 
